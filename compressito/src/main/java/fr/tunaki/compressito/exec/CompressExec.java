@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  * The image is converted to a lossy format : <code>jpg</code>.
  * @author gboue
  */
-public class CompressExec {
+public class CompressExec extends AbstractThread {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CompressExec.class);
 
@@ -42,21 +42,24 @@ public class CompressExec {
     /**
      * Start the compression.
      * <p>
+     * The compressing operation operates in its own thread.
+     * <p>
      * A {@link CompressionException} is thrown if an exception occurs during the compression process.
      */
-    public void doCompress() {
+    @Override
+    public void doRun() {
         try {
             Process p = new ProcessBuilder()//
                     .command(Paths.get(imageMagickPath, "mogrify.exe").toString(), "-format", "jpg", "-strip", "-quality", "75", "-compress", "JPEG", "*.*")//
                     .directory(Paths.get(imagesPath).toFile())//
                     .start();
             p.waitFor();
-            deleteAllNonJpegImages(Paths.get(imagesPath));
         } catch (IOException | InterruptedException e) {
             String message = "Exception lors de la compression des images";
             LOGGER.error(message, e);
             throw new CompressionException(message, e);
         }
+        deleteAllNonJpegImages(Paths.get(imagesPath));
     }
 
     private void deleteAllNonJpegImages(Path imagesPath) {

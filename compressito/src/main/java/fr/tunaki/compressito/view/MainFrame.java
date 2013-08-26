@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.Thread.UncaughtExceptionHandler;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
 import fr.tunaki.compressito.exec.CompressExec;
-import fr.tunaki.compressito.exec.CompressionException;
 import fr.tunaki.compressito.i18n.LocaleChangeEvent;
 import fr.tunaki.compressito.i18n.LocaleChangeListener;
 import fr.tunaki.compressito.i18n.Msg;
@@ -47,12 +47,29 @@ public class MainFrame extends JFrame {
         compressButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+                final OnGoingCompressionDialog compressionDialog = new OnGoingCompressionDialog(MainFrame.this);
                 CompressExec exec = new CompressExec(configPanel.getImagesPath(), configPanel.getImageMagickPath());
-                try {
-                    exec.doCompress();
-                } catch (CompressionException e) {
-                    JOptionPane.showMessageDialog(MainFrame.this, e.getCause().getMessage(), e.getMessage(), JOptionPane.ERROR_MESSAGE);
-                }
+                exec.addStartRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        compressionDialog.open();
+                    }
+                });
+                exec.addStopRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        compressionDialog.close();
+                        JOptionPane.showMessageDialog(MainFrame.this, Msg.get("compression.success.message"), Msg.get("compression.success.title"), JOptionPane.INFORMATION_MESSAGE);
+                    }
+                });
+                exec.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+                    @Override
+                    public void uncaughtException(Thread t, Throwable e) {
+                        compressionDialog.close();
+                        JOptionPane.showMessageDialog(MainFrame.this, e.getCause().getMessage(), e.getMessage(), JOptionPane.ERROR_MESSAGE);
+                    }
+                });
+                exec.start();
             }
         });
         setVisible(true);
