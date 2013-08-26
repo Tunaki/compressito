@@ -8,8 +8,8 @@
 	<name>compressito</name>
 	<description>Short utility program to batch compress image files</description>
 	<scm>
-		<connection>scm:git:https://github.com/Tunaki/compressito.git</connection>
-		<developerConnection>scm:git:ssh://github.com/Tunaki/compressito.git</developerConnection>
+		<connection>scm:git:ssh://git@github.com/Tunaki/compressito.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/Tunaki/compressito.git</developerConnection>
 		<url>http://github.com/Tunaki/compressito</url>
 	</scm>
 	<properties>
