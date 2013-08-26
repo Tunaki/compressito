@@ -1,17 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.tunaki.compressito</groupId>
 	<artifactId>compressito</artifactId>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.2</version>
 	<name>compressito</name>
 	<description>Short utility program to batch compress image files</description>
 	<scm>
 		<connection>scm:git:ssh://git@github.com/Tunaki/compressito.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/Tunaki/compressito.git</developerConnection>
 		<url>http://github.com/Tunaki/compressito</url>
-	</scm>
+	  <tag>compressito-1.2</tag>
+  </scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -71,18 +70,13 @@
 				<configuration>
 					<tasks>
 						<property file="${user.home}/mail.properties" prefix="mail" />
-						<mail mailhost="${mail.host}"
-							  mailport="${mail.port}"
-							  user="${mail.user}"
-							  password="${mail.password}"
-							  messagemimetype="text/html"
-							  subject="compressito - version ${project.version}">
-							<from address="${mail.from}"/>
-							<to address="${mail.to}"/>
+						<mail mailhost="${mail.host}" mailport="${mail.port}" user="${mail.user}" password="${mail.password}" messagemimetype="text/html" subject="compressito - version ${project.version}">
+							<from address="${mail.from}" />
+							<to address="${mail.to}" />
 							<message>compressito - version ${project.version}</message>
 							<attachments>
 								<fileset dir="${project.build.directory}">
-						  			<include name="${project.build.finalName}.${project.packaging}"/>
+						  			<include name="${project.build.finalName}.${project.packaging}" />
 								</fileset>
 							</attachments>
 						</mail>
