@@ -54,7 +54,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.4.1</version>
 				<configuration>
-					<completionGoals>antrun:run</completionGoals>
+					<goals>deploy,antrun:run</goals>
 				</configuration>
 			</plugin>
 			<plugin>
