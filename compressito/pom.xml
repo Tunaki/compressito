@@ -62,17 +62,10 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5</version>
+				<version>2.5.1</version>
 				<configuration>
-					<completionGoals>antrun:run</completionGoals>
+					<preparationGoals>antrun:run</preparationGoals>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.scm</groupId>
-						<artifactId>maven-scm-provider-gitexe</artifactId>
-						<version>1.9</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
@@ -118,9 +111,7 @@
 				<configuration>
 					<target>
 						<property file="${user.home}/mail.properties" prefix="mail" />
-						<mail mailhost="${mail.host}" mailport="${mail.port}" user="${mail.user}"
-							password="${mail.password}" messagemimetype="text/html"
-							subject="compressito - version ${project.version}">
+						<mail mailhost="${mail.host}" mailport="${mail.port}" user="${mail.user}" password="${mail.password}" messagemimetype="text/html" subject="compressito - version ${project.version}">
 							<from address="${mail.from}" />
 							<to address="${mail.to}" />
 							<message>compressito - version ${project.version}</message>
