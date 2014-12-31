@@ -1,16 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.tunaki.compressito</groupId>
 	<artifactId>compressito</artifactId>
-	<version>1.7-SNAPSHOT</version>
+	<version>1.7</version>
 	<name>compressito</name>
 	<description>Short utility program to batch compress image files</description>
 	<scm>
 		<connection>scm:git:ssh://git@github.com/Tunaki/compressito.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/Tunaki/compressito.git</developerConnection>
 		<url>http://github.com/Tunaki/compressito</url>
-		<tag>HEAD</tag>
+		<tag>compressito-1.7</tag>
 	</scm>
 	<distributionManagement>
 		<repository>
@@ -50,8 +49,7 @@
 						</goals>
 						<configuration>
 							<transformers>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>fr.tunaki.compressito.Launcher</mainClass>
 								</transformer>
 							</transformers>
