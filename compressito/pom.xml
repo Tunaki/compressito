@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.tunaki.compressito</groupId>
 	<artifactId>compressito</artifactId>
-	<version>1.9-SNAPSHOT</version>
+	<version>1.8</version>
 	<name>compressito</name>
 	<description>Short utility program to batch compress image files</description>
 	<scm>
@@ -113,12 +113,7 @@
 						<mail mailhost="${mail.host}" mailport="${mail.port}" user="${mail.user}" password="${mail.password}" messagemimetype="text/html" subject="compressito - version ${project.version}">
 							<from address="${mail.from}" />
 							<to address="${mail.to}" />
-							<message>compressito - version ${project.version}</message>
-							<attachments>
-								<fileset dir="${project.build.directory}">
-									<include name="${project.build.finalName}.${project.packaging}" />
-								</fileset>
-							</attachments>
+							<message><![CDATA[<a href="https://github.com/Tunaki/compressito/blob/mvn-repo/fr/tunaki/compressito/compressito/${project.version}/compressito-${project.version}.jar?raw=true">https://github.com/Tunaki/compressito/blob/mvn-repo/fr/tunaki/compressito/compressito/${project.version}/compressito-${project.version}.jar?raw=true</a>]]></message>
 						</mail>
 					</target>
 				</configuration>
