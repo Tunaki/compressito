@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.tunaki.compressito</groupId>
 	<artifactId>compressito</artifactId>
@@ -11,8 +12,16 @@
 		<url>http://github.com/Tunaki/compressito</url>
 		<tag>HEAD</tag>
 	</scm>
+	<distributionManagement>
+		<repository>
+			<id>internal.repo</id>
+			<name>Temporary Staging Repository</name>
+			<url>file://${project.build.directory}/mvn-repo</url>
+		</repository>
+	</distributionManagement>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<github.global.server>github</github.global.server>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -32,23 +41,24 @@
 				</configuration>
 			</plugin>
 			<plugin>
-			    <artifactId>maven-shade-plugin</artifactId>
-			    <version>2.1</version>
-			    <executions>
-			        <execution>
-			            <goals>
-			                <goal>shade</goal>
-			            </goals>
-			            <configuration>
-			                <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>fr.tunaki.compressito.Launcher</mainClass>
-                                </transformer>
-                            </transformers>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-			            </configuration>
-			        </execution>
-		        </executions>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>fr.tunaki.compressito.Launcher</mainClass>
+								</transformer>
+							</transformers>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
@@ -65,6 +75,37 @@
 				</dependencies>
 			</plugin>
 			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.1</version>
+				<configuration>
+					<altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.10</version>
+				<configuration>
+					<message>Maven artifacts for ${project.version}</message>
+					<noJekyll>true</noJekyll>
+					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+					<branch>refs/heads/mvn-repo</branch>
+					<includes>
+						<include>**/*</include>
+					</includes>
+					<repositoryName>compressito</repositoryName>
+					<repositoryOwner>Tunaki</repositoryOwner>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>deploy</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.7</version>
 				<executions>
@@ -77,13 +118,15 @@
 				<configuration>
 					<target>
 						<property file="${user.home}/mail.properties" prefix="mail" />
-						<mail mailhost="${mail.host}" mailport="${mail.port}" user="${mail.user}" password="${mail.password}" messagemimetype="text/html" subject="compressito - version ${project.version}">
+						<mail mailhost="${mail.host}" mailport="${mail.port}" user="${mail.user}"
+							password="${mail.password}" messagemimetype="text/html"
+							subject="compressito - version ${project.version}">
 							<from address="${mail.from}" />
 							<to address="${mail.to}" />
 							<message>compressito - version ${project.version}</message>
 							<attachments>
 								<fileset dir="${project.build.directory}">
-						  			<include name="${project.build.finalName}.${project.packaging}" />
+									<include name="${project.build.finalName}.${project.packaging}" />
 								</fileset>
 							</attachments>
 						</mail>
