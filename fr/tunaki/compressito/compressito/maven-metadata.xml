@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>fr.tunaki.compressito</groupId>
+  <artifactId>compressito</artifactId>
+  <versioning>
+    <versions>
+      <version>1.7-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20141231103724</lastUpdated>
+  </versioning>
+</metadata>
