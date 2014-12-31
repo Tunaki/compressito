@@ -2,14 +2,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.tunaki.compressito</groupId>
 	<artifactId>compressito</artifactId>
-	<version>1.7</version>
+	<version>1.8-SNAPSHOT</version>
 	<name>compressito</name>
 	<description>Short utility program to batch compress image files</description>
 	<scm>
 		<connection>scm:git:ssh://git@github.com/Tunaki/compressito.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/Tunaki/compressito.git</developerConnection>
 		<url>http://github.com/Tunaki/compressito</url>
-		<tag>compressito-1.7</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<distributionManagement>
 		<repository>
