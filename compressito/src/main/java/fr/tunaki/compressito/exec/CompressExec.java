@@ -7,6 +7,9 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * several parameters on every images in the work directory.
  * <p>
  * The actual call made is
- * 
+ *
  * <pre>
  * mogrify -format jpg -strip -quality 75 -compress JPEG *.*
  * </pre>
@@ -50,9 +53,18 @@ public class CompressExec extends AbstractThread {
 	 */
 	@Override
 	public void doRun() {
+		List<String> command = new ArrayList<>();
+		Path executable = Paths.get(imageMagickPath, "mogrify");
+		if (executable.toFile().exists()) {
+			command.add(executable.toString());
+		} else {
+			command.add(Paths.get(imageMagickPath, "magick").toString());
+			command.add("mogrify");
+		}
+		command.addAll(Arrays.asList("-format", "jpg", "-strip", "-quality", "75", "-compress", "JPEG", "*.*"));
 		try {
 			Process p = new ProcessBuilder()
-			.command(Paths.get(imageMagickPath, "mogrify.exe").toString(), "-format", "jpg", "-strip", "-quality", "75", "-compress", "JPEG", "*.*")
+			.command(command)
 			.directory(Paths.get(imagesPath).toFile())
 			.redirectErrorStream(true)
 			.start();
